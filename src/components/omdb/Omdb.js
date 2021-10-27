@@ -4,7 +4,7 @@ import axios from "axios";
 export class Omdb extends Component {
 
     state = {
-        title: "",
+        title: "matrix",
         poster: "",
         ratingsArray: [],
         search: "",
@@ -32,16 +32,17 @@ export class Omdb extends Component {
             let result = await axios.get(
                 `http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}`
             );
-
+            
+            console.log(result);
             //setting the state with the results of the api 'GET' and error and loading states
-            this.setState({
-                title: result.data.name,
-                picture: result.data.sprites.front_default,
-                ratingsArray: result.data.abilities,
-                isError: false,
-                errorMessage: "",
-                isLoading: false,
-            });
+            // this.setState({
+            //     title: result.data.name,
+            //     picture: result.data.sprites.front_default,
+            //     ratingsArray: result.data.abilities,
+            //     isError: false,
+            //     errorMessage: "",
+            //     isLoading: false,
+            // });
 
             //Error catch with'e.response' to get full error message response in console
         } catch (e) {
@@ -49,20 +50,25 @@ export class Omdb extends Component {
             console.log(e.response);
 
             //if 'e.response.status = 404 change state to display error
-            if (e && e.response.status === 404) {
-                this.setState({
-                    isError: true,
-                    errorMessage: e.response.data,
-                    isLoading: false,
-                });
-            }
+            // if (e && e.response.status === 404) {
+            //     this.setState({
+            //         isError: true,
+            //         errorMessage: e.response.data,
+            //         isLoading: false,
+            //     });
+            // }
         }
     };
 
     render() {
         return (
             <div>
-                
+                <input
+                    name="search"
+                    value={this.state.search}
+                    onChange={this.handleOnChange}
+                />
+                <button onClick={this.handleOnClick}>Search</button>
             </div>
         )
     }
