@@ -5,19 +5,18 @@ function OmdbDetails(props) {
     return (
         <div>
             <div style={styles.display}>
-                {props.moviesArray.filter((item, index) => index < 8).map(({ Poster, Title, imdbID }) => {
-                    return (
-                        <div key={imdbID} style={styles.row}>
-                            <img src={Poster} alt="poster" />
-                            <h3 key={imdbID}>{Title}</h3>
+                {props.movieDetailsArray.map((item) => (
+                        <div key={item.data.imdbID} style={styles.row}>
+                            <img src={item.data.Poster} alt="poster" />
+                            <p>{item.data.Title} <b>Rating:</b> {item.data.imdbRating}</p>
                         </div>
-                        )
-                    })
-                }
+                    )
+                )}
             </div>
         </div>
     )
 }
+
 const styles = {
 
     display: {
@@ -35,7 +34,7 @@ const styles = {
 }
 
 OmdbDetails.propTypes = {
-    moviesArray: PropTypes.array.isRequired,
+    movieDetailsArray: PropTypes.array.isRequired,
 };
 
 export default OmdbDetails

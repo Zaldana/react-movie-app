@@ -8,10 +8,11 @@ export class Omdb extends Component {
 
     state = {
         moviesArray: [],
-        ratingsArray: [],
         searchResult: "",
-        // isError: false,
-        // errorMessage: "",
+        movieDetailsArray: [],
+        id: [],
+        isError: false,
+        errorMessage: "",
         isLoading: false,
     };
 
@@ -41,19 +42,29 @@ export class Omdb extends Component {
             const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
             let result = await axios.get(
-                `http://www.omdbapi.com/?s=${searchResult}&apikey=${API_KEY}`
+                `http://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
             );
-            
-            console.log("result", result);
-         
+
+            let idArray = result.data.Search.map(({ imdbID }) => ( imdbID ))
+
+            let movieDetails = []
+
+            for (let i = 0; i < 8; i++) {
+                movieDetails.push(await axios.get(
+                    `http://www.omdbapi.com/?i=${idArray[i]}&type=movie&apikey=${API_KEY}`
+                ))
+            }
+     
             this.setState({
                 moviesArray: result.data.Search,
+                id: idArray,
+                movieDetailsArray: movieDetails,
                 isError: false,
                 errorMessage: "",
                 isLoading: false,
             });
 
-            //Error catch with'e.response' to get full error message response in console
+        //Error catch with'e.response' to get full error message response in console
         } catch (e) {
             
             // console.log(e.response);
@@ -69,26 +80,6 @@ export class Omdb extends Component {
         }
     };
 
-    fetchMovieRating = async (imdbID) => {
-
-        const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
-
-
-        try {
-
-            let result = await axios.get(
-                `http://www.omdbapi.com/?i=${imdbID}&apikey=${API_KEY}`
-            );
-
-            console.log("rating", result.data.imdbRating);
-            // return result.data.imdbRating
-        
-        } catch (e) {
-            
-        }
-    }
-
-
     handleOnChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
@@ -97,7 +88,6 @@ export class Omdb extends Component {
 
     handleOnClick = async () => {
         this.fetchMovieApi(this.state.searchResult);
-        console.log("state", this.state);
     };
 
     render() {
@@ -114,9 +104,9 @@ export class Omdb extends Component {
                         <button style={styles.button} onClick={this.handleOnClick} >Search</button>
                     </div>
                     <OmdbDetails
-                        moviesArray={this.state.moviesArray}
-                    />
-                
+            
+                        movieDetailsArray={this.state.movieDetailsArray}
+                    />                
             </div>
             </React.Fragment>
         )
