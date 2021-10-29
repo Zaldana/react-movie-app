@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from "axios";
 import OmdbDetails from './OmdbDetails';
-// import Loading from "../common/Loading";
+import Loading from "../common/Loading";
 // import OmdbDetails from "./OmdbDetails";
 
 export class Omdb extends Component {
@@ -44,6 +44,8 @@ export class Omdb extends Component {
             let result = await axios.get(
                 `http://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
             );
+
+            console.log(result);
 
             let idArray = result.data.Search.map(({ imdbID }) => ( imdbID ))
 
@@ -103,11 +105,18 @@ export class Omdb extends Component {
                         />
                         <button style={styles.button} onClick={this.handleOnClick} >Search</button>
                     </div>
-                    <OmdbDetails
-            
-                        movieDetailsArray={this.state.movieDetailsArray}
-                    />                
-            </div>
+                    <div >
+                    {this.state.isLoading ? (
+                        <div style={styles.loading}>
+                            <Loading />
+                        </div>
+                        ) : (
+                        <OmdbDetails
+                            movieDetailsArray={this.state.movieDetailsArray}
+                        />
+                    )}
+                    </div>
+                </div>
             </React.Fragment>
         )
     }
@@ -115,13 +124,22 @@ export class Omdb extends Component {
 
 const styles = {
 
+    loading: {
+        color: "white",
+        height: "100vh",
+        paddingTop: "12%",
+        fontSize: 100,
+        textShadow: "0px 0px 20px Red",
+        fontWeight: 900
+    },
+
     blackBackground: {
-        background: "radial-gradient(circle, rgba(32,53,62,1) 0%, rgba(0,0,0,1) 100%)"
+        background: "radial-gradient(circle, rgba(32,53,62,1) 0%, rgba(0,0,0,1) 100%)",
     },
 
     searchDiv: {
         background: "linear-gradient(90deg, rgba(10,100,122,1) 0%, rgba(28,38,145,1) 50%, rgba(10,100,122,1) 100%)",
-        padding: 30
+        padding: 30,
     },
 
     search: {
