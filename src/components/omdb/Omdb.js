@@ -14,8 +14,11 @@ export class Omdb extends Component {
         isError: false,
         errorMessage: "",
         isLoading: false,
+
     };
 
+
+        
     initialSearch() {
         
         const initialSearchArray = ["superman", "lord of the rings", "batman", "pokemon", "harry potter", "star wars", "avengers", "terminator"]
@@ -47,38 +50,52 @@ export class Omdb extends Component {
 
             console.log(result);
 
-            let idArray = result.data.Search.map(({ imdbID }) => ( imdbID ))
+            if (result.data.Error) {
 
-            let movieDetails = []
+                throw result.data.Error
 
-            for (let i = 0; i < 8; i++) {
-                movieDetails.push(await axios.get(
-                    `http://www.omdbapi.com/?i=${idArray[i]}&type=movie&apikey=${API_KEY}`
-                ))
-            }
+
+            } else {
+                let idArray = result.data.Search.map(({ imdbID }) => (imdbID))
+
+                let movieDetails = []
+
+                for (let i = 0; i < 8; i++) {
+                    movieDetails.push(await axios.get(
+                        `http://www.omdbapi.com/?i=${idArray[i]}&type=movie&apikey=${API_KEY}`
+                    ))
+                }
      
-            this.setState({
-                moviesArray: result.data.Search,
-                id: idArray,
-                movieDetailsArray: movieDetails,
-                isError: false,
-                errorMessage: "",
-                isLoading: false,
-            });
+                this.setState({
+                    moviesArray: result.data.Search,
+                    id: idArray,
+                    movieDetailsArray: movieDetails,
+                    isError: false,
+                    errorMessage: "",
+                    isLoading: false,
+                })
+            }
 
         //Error catch with'e.response' to get full error message response in console
         } catch (e) {
             
-            // console.log(e.response);
+            if (e === "Incorrect IMDb ID.") {
+            
+                this.setState({
+                    errorMessage: "Please do not leave search field blank",
+                    isError: true,
+                    isLoading: false
+                });
+            
+            } else {
+                
+                this.setState({
+                    errorMessage: e + " Please try again.",
+                    isError: true,
+                    isLoading: false
+                })
 
-            // if 'e.response.status = 404 change state to display error
-            // if (e && e.response.status === 404) {
-            //     this.setState({
-            //         isError: true,
-            //         errorMessage: e.response.data,
-            //         isLoading: false,
-            //     });
-            // }
+            }
         }
     };
 
@@ -91,6 +108,7 @@ export class Omdb extends Component {
     handleOnClick = async () => {
         this.fetchMovieApi(this.state.searchResult);
     };
+
 
     render() {
         return (
@@ -105,6 +123,11 @@ export class Omdb extends Component {
                         />
                         <button style={styles.button} onClick={this.handleOnClick} >Search</button>
                     </div>
+                    {this.state.errorMessage &&
+                        <div style={styles.padding}>
+                            <span style={styles.error}>{this.state.errorMessage}</span>
+                        </div>
+                    }
                     <div >
                     {this.state.isLoading ? (
                         <div style={styles.loading}>
@@ -123,6 +146,18 @@ export class Omdb extends Component {
 }
 
 const styles = {
+
+    padding: {
+        padding: 50,
+    },
+
+    error: {
+        color: "red",
+        fontSize: 30,
+        fontWeight: 500,
+        textTransform: "uppercase",
+        textShadow: "0px 0px 10px Red",
+    },
 
     loading: {
         color: "white",
