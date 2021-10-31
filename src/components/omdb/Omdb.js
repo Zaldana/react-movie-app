@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import axios from "axios";
 import OmdbDetails from './OmdbDetails';
 import Loading from "../common/Loading";
-// import OmdbDetails from "./OmdbDetails";
 
 export class Omdb extends Component {
 
@@ -54,10 +53,9 @@ export class Omdb extends Component {
 
                 throw result.data.Error
 
-
             } else {
-                let idArray = result.data.Search.map(({ imdbID }) => (imdbID))
 
+                let idArray = result.data.Search.map(({ imdbID }) => (imdbID))
                 let movieDetails = []
 
                 for (let i = 0; i < 8; i++) {
