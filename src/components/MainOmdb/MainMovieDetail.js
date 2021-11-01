@@ -113,6 +113,7 @@ const styles = {
     },
     row: {
         display: "flex",
+        flexWrap: "wrap",
         paddingTop: 50
     },
     posterBox: {
@@ -124,13 +125,13 @@ const styles = {
         boxShadow: "1px 1px 30px rgba(0, 0, 0, 0.9)",
     },
     textBox: {
-        width: "66% ",
+        width: "60% ",
         textAlign: "left",
         paddingTop: "2%",
         paddingRight: "5%"
     },
     title: {
-        fontSize: 100,
+        fontSize: 50,
         fontWeight: 900
     },
     year: {

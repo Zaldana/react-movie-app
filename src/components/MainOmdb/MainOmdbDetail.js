@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom";
 
-function OmdbDetails(props) {
+function MainOmdbDetails(props) {
 
     return (
         <div>
@@ -49,8 +49,8 @@ const styles = {
     },
 }
 
-OmdbDetails.propTypes = {
+MainOmdbDetails.propTypes = {
     movieDetailsArray: PropTypes.array.isRequired,
 };
 
-export default OmdbDetails
+export default MainOmdbDetails

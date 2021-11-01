@@ -47,8 +47,6 @@ export class MainOmdb extends Component {
                 `http://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
             );
 
-            console.log(result);
-
             if (result.data.Error) {
 
                 throw result.data.Error
