@@ -41,6 +41,7 @@ export class MainOmdb extends Component {
 
         //api GET passing 'search' parameter at the end of the url
         try {
+
             const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
             let result = await axios.get(
@@ -159,8 +160,8 @@ const styles = {
         color: "white",
         height: "100vh",
         paddingTop: "12%",
-        fontSize: 100,
-        textShadow: "0px 0px 20px Red",
+        fontSize: 80,
+        textShadow: "0px 0px 20px darkOrange",
         fontWeight: 900
     },
 
@@ -171,16 +172,25 @@ const styles = {
     searchDiv: {
         background: "linear-gradient(90deg, rgba(10,100,122,1) 0%, rgba(28,38,145,1) 50%, rgba(10,100,122,1) 100%)",
         padding: 30,
+        boxShadow: "5px 0px 30px rgba(0, 0, 0, 0.9)",
     },
 
     search: {
         height: 30,
         marginRight: "1%",
         width: "50%",
+        borderRadius: 10,
+        boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        paddingLeft: 10,
     },
     button: {
         height: 33,
         width: 70,
+        boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        backgroundColor: "DarkOrange",
+        color: "white",
+        fontWeight: 600,
+        borderRadius: 4,
     }
 }
 

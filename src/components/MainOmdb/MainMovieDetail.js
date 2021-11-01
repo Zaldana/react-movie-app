@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Loading from "../common/Loading";
+import { Link } from "react-router-dom";
 
 export class MainMovieDetail extends Component {
     state = {
@@ -12,17 +13,17 @@ export class MainMovieDetail extends Component {
         director: "",
         actors: "",
         plot: "",
-        poster:"",
+        poster: "",
         errorMessage: "",
         isLoading: false,
     };
 
     async componentDidMount() {
-        
+
         this.setState({
             isLoading: true,
         });
-        
+
         try {
 
             const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
@@ -47,9 +48,9 @@ export class MainMovieDetail extends Component {
             });
 
         } catch (e) {
-            
+
             console.log(e);
-        
+
         }
     }
 
@@ -63,8 +64,9 @@ export class MainMovieDetail extends Component {
                         </div>
                     ) : (
                         <div style={styles.row}>
+
                             <div style={styles.posterBox}>
-                                    <img src={this.state.poster} alt="movie poster" style={styles.poster}/>
+                                <img src={this.state.poster} alt="movie poster" style={styles.poster} />
                             </div>
                             <div style={styles.textBox}>
                                 <h1 style={styles.title}>{this.state.title}</h1>
@@ -72,12 +74,19 @@ export class MainMovieDetail extends Component {
                                     {this.state.year}  •  {this.state.rated}  •  {this.state.runtime}
                                 </h4>
                                 <br />
+                                <h4 style={styles.year}><b>Director: </b>{this.state.director}</h4>
                                 <h4 style={styles.year}>{this.state.actors}</h4>
-                                <br />    
+                                <br />
                                 <p style={styles.plot}>{this.state.plot}</p>
+                                <div style={styles.buttonContainer}>
+                                    <Link to={"/"} >
+                                        <button style={styles.button}>Back</button>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     )}
+
                 </div>
             </div>
         );
@@ -86,23 +95,21 @@ export class MainMovieDetail extends Component {
 
 const styles = {
 
-    padding: {
-        padding: 50,
-    },
+
 
     error: {
         color: "red",
         fontSize: 30,
         fontWeight: 500,
         textTransform: "uppercase",
-        textShadow: "0px 0px 10px Red",
+        textShadow: "0px 0px 10px red",
     },
 
     loading: {
         height: "100vh",
         paddingTop: "12%",
-        fontSize: 100,
-        textShadow: "0px 0px 20px Red",
+        fontSize: 80,
+        textShadow: "0px 0px 20px darkOrange",
         fontWeight: 900
     },
 
@@ -118,7 +125,7 @@ const styles = {
     },
     posterBox: {
         width: "30%",
-        padding: "2%"
+        padding: "1%"
     },
     poster: {
         width: "85%",
@@ -140,6 +147,25 @@ const styles = {
     },
     plot: {
         fontSize: 30,
+    },
+    buttonContainer: {
+        marginTop: "10%",
+        height: 50,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+
+    },
+    button: {
+        width: 300,
+        height: 50,
+        boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        backgroundColor: "darkOrange",
+        color: "white",
+        fontWeight: 1000,
+        borderRadius: 8,
+        fontSize: 24,
     }
 
 }
